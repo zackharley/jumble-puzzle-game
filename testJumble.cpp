@@ -147,20 +147,98 @@ void testJumble() {
 	// even if you don't run out of memory.
 	// Of course you won't get a memory leak error if you are using the heap properly,
 	// and the program will terminate normally!
-	int loopLimit = 100000;
-	for (int i = 0; i < loopLimit; i++)
-		JumblePuzzle jp("HIDDENWORD", "hard");
-	cout << "\nPassed memory leak test!" << endl;
+	// int loopLimit = 100000;
+	// for (int i = 0; i < loopLimit; i++)
+	// 	JumblePuzzle jp("HIDDENWORD", "hard");
+	// cout << "\nPassed memory leak test!" << endl;
+
+	// MY TESTS
+
+	// Test constructor error throwing
+	cout << "Creating a Jumble without a word" << endl;
+	try {
+		JumblePuzzle jp5("", "easy");
+	} catch(BadJumbleException& e) {
+		cout << e.what() << endl << endl;
+	}
+
+	cout << "Creating a Jumble without a difficulty" << endl;
+	try {
+		JumblePuzzle jp6("test", "");
+	} catch(BadJumbleException& e) {
+		cout << e.what() << endl << endl;
+	}
+
+	cout << "Creating a Jumble with an invalid difficulty" << endl;
+	try {
+		JumblePuzzle jp7("test", "");
+	} catch(BadJumbleException& e) {
+		cout << e.what() << endl << endl;
+	}
+
+
+	// Test accessors
+	cout << "Creating a valid Jumble" << endl;
+	string word = "PROGRAMMER";
+	string difficulty = "easy";
+	JumblePuzzle jp8(word, difficulty);
+	int easy = 2;
+	int medium = 3;
+	int hard = 4;
+
+	int size = jp8.getSize();
+	if(size != word.length() * easy) {
+		cout <<  "getSize does not return the properly computed value." << endl;
+	} else {
+		cout << "getSize works properly!" << endl;
+	}
+
+	charArrayPtr* jumble = jp8.getJumble();
+	bool error = false;
+	for(int i = 0; i < size; i++) {
+		for(int j = 0; j < size; j++) {
+			if((jumble[i][j] < 'a' || jumble[i][j] > 'z') && (jumble[i][j] < 'A' || jumble[i][j] > 'Z')) {
+				error = true;
+			}
+		}
+	}
+
+	if(error) {
+		cout << "getJumble returns a jumble with invalid characters" << endl;
+	} else {
+		cout << "getJumble works properly!" << endl;
+	}
+
+	int rowPos = jp8.getRowPos();
+	if(rowPos >= size || rowPos < 0) {
+		cout << "getRowPos returns an invalid position" << endl;
+	} else {
+		cout << "getRowPos works properly!" << endl;
+	}
+
+	int colPos = jp8.getColPos();
+	if(colPos >= size || colPos < 0) {
+		cout << "getColPos returns an invalid position" << endl;
+	} else {
+		cout << "getColPos works properly!" << endl;
+	}
+
+	char direction = jp8.getDirection();
+	if(direction != 'n' && direction != 'e' && direction != 's' && direction != 'w') {
+		cout << "getDirection does not return a valid direction" << endl;
+	} else {
+		cout << "getDirection works properly!" << endl;
+	}
 
 } // end testJumble
 
 int main() {
 
-	// testJumble();
+	testJumble();
 
 
 	// Make sure your class works before you play the game!
-	playGame();
+	// playGame();
 
 	return 0;
 } // end main

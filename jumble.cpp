@@ -139,6 +139,10 @@ void JumblePuzzle::emptyJumble() {
 
 void JumblePuzzle::initializeJumble(const string word) {
 
+	if(word.length() == 0) {
+		throw BadJumbleException("You must supply a word to hide in thw jumble");
+	}
+
 	bool placed = false;
 	pair<int, int> position;
 
@@ -199,7 +203,6 @@ char JumblePuzzle::generateRandomDirection() {
 bool JumblePuzzle::isPositionValid(pair<int, int> position) {
 	int x = position.first;
 	int y = position.second;
-	cout << "(" << x << "," << y << ")" << endl;
 	return (isCoordinateValid(x) && isCoordinateValid(y));
 }
 
